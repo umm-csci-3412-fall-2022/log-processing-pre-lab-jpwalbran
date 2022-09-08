@@ -1,39 +1,9 @@
 #!/bin/bash
 
-# rename the input file from the command line arguments
-inputFile="$1"
+# Perform the format replacements and the output based on the input file
 
-# get the relevant numbering of the filename (eg. r0, r1, r2) from the inputFilePath
-# Based on FerranB's stackOverflow answer here:
-# https://stackoverflow.com/questions/428109/extract-substring-in-bash
-baseFile=$(echo "$inputFile" | cut -d'_' -f 1)
+sed -E "s/\* ([A-Za-z]*), ([A-Za-z]*)/1. \1\n2. \2\n/" < r0_input.txt > r0_output.txt
 
-# Construct the regex replacement sections for the various inputs
+sed -E "s/\* I am ([A-Za-z]*)\. My favorite sandwich is ([A-Za-z]*)/1. \1\n2. \2\n/" < r1_input.txt > r1_output.txt
 
-###################R0 patterns###################
-
-# Gets the name and stores it in a group
-nameRegex="^\* \([A-Za-z]*\)"
-
-# Gets the favorite breakfast food and stores it in a group
-breakfastSnackRegex="^.*, \([A-Za-z]*\)"
-
-##################R1 patterns#####################
-
-# Matches the pattern "I am <name>." and captures the name in a group
-introductionRegex="^I am \([A-Za-z]*\)\."
-
-# Matches the regex "favorite sandwich is <favorite sandwich>"
-# and captures the output into a group.
-favoriteSandwichRegex="favorite sandwhich is \([A-Za-z]*\)\.$"
-
-################R2 patterns#####################
-
-# Gets the sandwich toppings, storing them to a group
-sandwichToppingRegex=" \([A-Za-z]*\.\)"
-
-# Gets the "for here" or "to go" pattern at the end of the string
-eatingLocationRegex="\.\s\([ft].*\)"
-
-
-
+sed -E "s/\* .* ([A-Za-z]*\..*)\s([ft].*)/1. \1\n2. \2\n/" < r2_input.txt > r2_output.txt
